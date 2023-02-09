@@ -1,0 +1,82 @@
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <script>
+    function generate_strong_password(length) {
+      // Ensure length is at least 8
+      if (length < 8) {
+        length = 8;
+      }
+
+      // Character sets
+      var uppercase_letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var lowercase_letters = "abcdefghijklmnopqrstuvwxyz";
+      var digits = "0123456789";
+      var special_characters = "!?,;:.";
+      var emojis = "❤️🤔😎🎉🎁🎂🎃🎄🎅🏻🎈🎉🎊🎌🏼🎍🎎🎏🎐🎑🎒🎓🎠🎡🎢🎣🎤🎥🎦🎧🎨🎩🎪🎫🎬🎭🎮🎯🎰🎱🎲🎳";
+
+      // Generate the password
+      var password =
+        random_sample(uppercase_letters, 2) +
+        random_sample(lowercase_letters, 2) +
+        random_sample(digits, 2) +
+        random_sample(special_characters, 1) +
+        random_sample(emojis, 1);
+
+      // Shuffle the password
+      password = shuffle_string(password);
+
+      // Add random characters to reach the desired length
+      while (password.length < length) {
+        password += random_choice(
+          uppercase_letters +
+          lowercase_letters +
+          digits +
+          special_characters +
+          emojis
+        );
+      }
+
+      // Return the password as a string
+      return password;
+    }
+
+    function random_sample(str, size) {
+      var result = "";
+      for (var i = 0; i < size; i++) {
+        result += str[Math.floor(Math.random() * str.length)];
+      }
+      return result;
+    }
+
+    function random_choice(str) {
+      return str[Math.floor(Math.random() * str.length)];
+    }
+
+    function shuffle_string(str) {
+      var a = str.split(""),
+        n = a.length;
+
+      for (var i = n - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+      }
+      return a.join("");
+    }
+  </script>
+</head>
+
+<body>
+  <input type="number" id="password_length" value="12">
+  <button
+    onclick="document.getElementById('password').innerHTML = generate_strong_password(document.getElementById('password_length').value)">
+    Generate Password
+  </button>
+  <br />
+  <br />
+  <div>
+    <p id="password">Password will show up here.</p>
+  </div>
